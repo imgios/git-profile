@@ -27,14 +27,14 @@ $ alias git-profile='$(pwd)/git-profile.sh' # Paste this string into .bashrc
 # You can also generate the string using the script
 $ ./git-profile.sh --alias
 ```
-3. Save your actual .gitconfig in the profiles path:
+3. Save your actual `.gitconfig` in the profiles path:
 ```shell
 # Manual
 $ cp ~/.gitconfig $(pwd)/profiles/default.gitconfig # You can use any name you wish to use
 # Using the script
 $ ./git-profile.sh -s # If you have the alias you can use git-profile -s
 ```
-4. Create a new `.gitconfig` file in the profiles path for every account you want to configure (e.g. `github.gitconfig`), and switch between them using the script:
+4. Create a new `.gitconfig` file in the profiles path for each account you want to configure (e.g. `github.gitconfig`, `gitlab.gitconfig`, ...), and switch between them using the script:
 ```shell
 $ git-profile <profile-name>
 ```
