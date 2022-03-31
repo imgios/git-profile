@@ -18,6 +18,7 @@ fi
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PROFILE_DIR=$SCRIPT_DIR/profiles
+# Replace the Git config and check if it's ok or not
 if (cp $PROFILE_DIR/$1.gitconfig ~/.gitconfig); then
   echo "INFO: Profile $1 applied!"
 elif
