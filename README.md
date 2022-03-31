@@ -20,12 +20,12 @@ $ git clone https://github.com/imgios/git-profile.git
 ```shell
 $ chmod +x git-profile.sh
 ```
-  1. (Optional) Create the alias to use it from anywhere:
-  ```shell
-  $ alias git-profile='$(pwd)/git-profile.sh' # Paste this string into .bashrc
-  # You can also generate the string using the script
-  $ ./git-profile.sh --alias
-  ```
+2.1. (Optional) Create the alias to use it from anywhere:
+```shell
+$ alias git-profile='$(pwd)/git-profile.sh' # Paste this string into .bashrc
+# You can also generate the string using the script
+$ ./git-profile.sh --alias
+```
 3. Save your actual .gitconfig in the profiles path:
 ```shell
 # Manual
