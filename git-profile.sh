@@ -12,7 +12,15 @@ SCRIPT_NAME=$(basename $0)
 
 # This functions prints a USAGE-related string
 get_usage() {
-  echo "USAGE: ${SCRIPT_NAME%%.*} <profile-name>"
+  echo "USAGE: ${SCRIPT_NAME%%.*} <profile-name>
+  
+  where: <profile-name> is a <profile-name>.gitconfig files in $PROFILE_DIR
+  
+  flags:
+    -h,--help     Show this help text.
+    -s,--save     Save current .gitconfig in $PROFILE_DIR/default.gitconfig
+    -a,--alias    Show bashrc alias to use the script from anywhere
+    -V,--version  Show script version."
 }
 
 # This functions save the actual .gitconfig in profiles/default.gitconfig
