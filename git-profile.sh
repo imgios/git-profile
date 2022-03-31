@@ -4,7 +4,7 @@
 # Usage ./git-profile.sh <profile-name>
 # Where <profile-name> is a <profile-name>.gitconfig files existing in the scriptdir/profiles path.
 
-# Func: Print USAGE
+# This functions prints a USAGE-related string
 get_usage() {
   echo "USAGE: ${SCRIPT_NAME%%.*} <profile-name>"
 }
