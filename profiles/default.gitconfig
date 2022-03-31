@@ -1,0 +1,21 @@
+# Example .gitconfig used as Git Profile
+[user]
+  name = Your Name
+  email = your-email@example.com
+
+[color]
+  ui = auto
+
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch -av
+  brdel = branch -D
+
+  # Show all configured aliases
+  aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\ \t => \\2/' | sort
+
+  # Log format view
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
