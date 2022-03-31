@@ -36,6 +36,11 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     save_gitconfig
     exit
     ;;
+  -a | --alias )
+    echo "Paste the following string in your .bashrc to call the script from anywhere:"
+    echo "alias git-profile='$SCRIPT_DIR/$SCRIPT_NAME.sh'"
+    exit
+    ;;
   -h | --help )
     get_usage
     exit
