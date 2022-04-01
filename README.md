@@ -2,6 +2,10 @@
 
 Bash script in order to switch between various Git profiles, where each profile is represented as `.gitconfig` file.
 
+> A scenario could be:
+> - Work profile with the working email (e.g. imgios@github.com) and ssh-key defined to access a repository hosted on the intranet;
+> - Personal profile with the personal email (e.g. imgios@giosuesulipano.it) to access a repository hosted on GitHub (or any other host)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for usage, development and testing purposes.
@@ -38,6 +42,54 @@ $ ./git-profile.sh -s # If you have the alias you can use git-profile -s
 ```shell
 $ git-profile <profile-name>
 ```
+
+### Usage
+
+Before starting make sure you have saved (see [Installing - Point 3](#installing)) your currently used `.gitconfig`, otherwise you will risk to lose it. Then navigate in the `/profiles` path and create a new `.gitconfig` for each profile you want to setup.
+
+```GitConfig
+# Example .gitconfig used as Git profile
+[user]
+  name = Your Name
+  email = your-email@example.com
+
+[color]
+  ui = auto
+
+[alias]
+  co = checkout
+  ci = commit
+  st = status
+  br = branch -av
+  brdel = branch -D
+
+  # Show all configured aliases
+  aliases = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\ \t => \\2/' | sort
+
+  # Log format view
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+```
+
+When you're done populating the profiles path, you can start using the script:
+
+```shell
+$ git-profile --help
+USAGE: git-profile <profile-name>
+  
+  where: <profile-name> is a <profile-name>.gitconfig files in ~/git-profile/profiles/
+  
+  flags:
+    -h,--help     Show this help text.
+    -s,--save     Save current .gitconfig in ~/git-profile/profiles/default.gitconfig
+    -a,--alias    Show bashrc alias to use the script from anywhere
+    -V,--version  Show script version.
+    
+$ git-profile github # This will override the .gitconfig in use with the github.gitconfig defined in /profiles/github.config
+INFO: Profile github applied!
+```
+
+> Examples using alias as described in [Installing - Optional Point 2.1](#installing), if you don't use it you can simply go with `./git-profile.sh`.
 
 <!-- ## Contributing
 
