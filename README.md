@@ -4,7 +4,7 @@ Bash script in order to switch between various Git profiles, where each profile 
 
 > A scenario could be:
 > - Work profile with the working email (e.g. imgios@github.com) and ssh-key defined to access a repository hosted on the intranet;
-> - Personal profile with the personal email (e.g. imgios@giosuesulipano.it) to access a repository hosted on GitHub (or any other host)
+> - Personal profile with the personal email (e.g. imgios@giosuesulipano.it) to access a repository hosted on GitHub (or any other hosting)
 
 ## Getting Started
 
