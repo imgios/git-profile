@@ -18,15 +18,15 @@ get_usage() {
   
   flags:
     -h,--help     Show this help text.
-    -s,--save     Save current .gitconfig in $PROFILE_DIR/default.gitconfig
+    -s,--save     Save current .gitconfig in $PROFILE_DIR/default.gitconfig if no name is passed, otherwise it will be saved in $PROFILE_DIR/<name_passed>.gitconfig
     -a,--alias    Show bashrc alias to use the script from anywhere
     -V,--version  Show script version."
 }
 
 # This functions save the actual .gitconfig in profiles/default.gitconfig
 save_gitconfig() {
-  if cp ~/.gitconfig $PROFILE_DIR/default.gitconfig; then
-    echo "INFO: Profile saved in $PROFILE_DIR/default.gitconfig"
+  if cp ~/.gitconfig $PROFILE_DIR/$1.gitconfig; then
+    echo "INFO: Profile saved in $PROFILE_DIR/$1.gitconfig"
     return 0
   else
     echo "ERROR: Profile not saved! Be sure the profiles path exists in $PROFILE_DIR"
@@ -41,7 +41,11 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     exit
     ;;
   -s | --save )
-    save_gitconfig
+    PROFILE_NAME="default"
+    if [[ -n "$2" ]]; then
+      PROFILE_NAME=$2
+    fi 
+    save_gitconfig "$PROFILE_NAME"
     exit
     ;;
   -a | --alias )
