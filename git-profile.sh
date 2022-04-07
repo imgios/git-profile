@@ -10,7 +10,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PROFILE_DIR=$SCRIPT_DIR/profiles
 SCRIPT_NAME=$(basename $0)
 
-# This functions prints a USAGE-related string
+# This function prints a USAGE-related string
 get_usage() {
   echo "USAGE: ${SCRIPT_NAME%%.*} <profile-name>
   
@@ -23,7 +23,7 @@ get_usage() {
     -V,--version  Show script version."
 }
 
-# This functions save the actual .gitconfig in profiles/default.gitconfig
+# This function save the actual .gitconfig in profiles/default.gitconfig
 save_gitconfig() {
   if cp ~/.gitconfig $PROFILE_DIR/$1.gitconfig; then
     echo "INFO: Profile saved in $PROFILE_DIR/$1.gitconfig"
