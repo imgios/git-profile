@@ -65,7 +65,7 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
 esac; shift; done
 if [[ "$1" == '--' ]]; then shift; fi
 
-# See if the script has at least a param
+# See if the script has just one param (the file name)
 if [[ $# -ne 1 ]]; then
     get_usage
     exit 1
