@@ -91,19 +91,17 @@ INFO: Profile github applied!
 
 > Examples using alias as described in [Installing - Optional Point 2.1](#installing), if you don't use it you can simply go with `./git-profile.sh`.
 
-<!-- ## Contributing
+## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us. -->
+Please read [CONTRIBUTING.md](https://github.com/imgios/git-profile/blob/main/CONTRIBUTING.md) for details on the code of conduct, and the process for submitting pull requests.
+
+See also the list of [contributors](https://github.com/imgios/git-profile/contributors) who participated in this project.
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/imgios/git-profile/tags).
 
-## Authors
-
-* **Giosuè Sulipano** - *Initial work* - [imgios](https://github.com/imgios)
-
-See also the list of [contributors](https://github.com/imgios/git-profile/contributors) who participated in this project.
+The current version in development can always be found in the [`dev`](https://github.com/imgios/git-profile/tree/dev) branch.
 
 ## License
 
