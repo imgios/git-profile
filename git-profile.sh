@@ -86,6 +86,11 @@ if [[ $# -ne 1 ]]; then
     exit 1
 fi
 
+# Check if git is present in the machine
+if [[ ! check_git ]]; then
+  echo "ERROR: Git not found in the system!"
+fi
+
 # Replace the Git config and check if it's ok or not
 if cp $PROFILE_DIR/$1.gitconfig ~/.gitconfig; then
   echo "INFO: Profile $1 applied!"
