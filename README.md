@@ -34,7 +34,7 @@ $ ./git-profile.sh --alias
 3. Save your actual `.gitconfig` in the profiles path:
 ```shell
 # Manual
-$ cp ~/.gitconfig $(pwd)/profiles/default.gitconfig # You can use any name you wish to use
+$ cp ~/.gitconfig /profiles/default.gitconfig # You can use any name you wish to use
 # Using the script
 $ ./git-profile.sh -s # If you have the alias you can use git-profile -s
 ```
