@@ -93,7 +93,7 @@ INFO: Profile github applied!
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/imgios/git-profile/blob/main/CONTRIBUTING.md) for details on the code of conduct, and the process for submitting pull requests.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on the code of conduct, and the process for submitting pull requests.
 
 See also the list of [contributors](https://github.com/imgios/git-profile/contributors) who participated in this project.
 
@@ -105,4 +105,4 @@ The current version in development can always be found in the [`dev`](https://gi
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
