@@ -27,7 +27,7 @@ $ chmod +x git-profile.sh
 ```
 2.1. (Optional) Create the alias to use it from anywhere:
 ```shell
-$ alias git-profile='$(pwd)/git-profile.sh' # Paste this string into .bashrc
+$ echo "alias git-profile='$(pwd)/git-profile.sh'" # Paste the output in .bashrc
 # You can also generate the string using the script
 $ ./git-profile.sh --alias
 ```
