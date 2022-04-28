@@ -9,7 +9,7 @@
 # For more information use ./git-profile.sh --help
 
 # Variables
-VERSION=0.1
+VERSION=1.0
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 PROFILE_DIR=$SCRIPT_DIR/profiles
 SCRIPT_NAME=$(basename $0)
