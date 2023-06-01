@@ -87,8 +87,10 @@ if [[ $# -ne 1 ]]; then
 fi
 
 # Check if git is present in the machine
+# if it's missing exit
 if [[ ! check_git ]]; then
   echo "ERROR: Git not found in the system!"
+  exit 1;
 fi
 
 # Replace the Git config and check if it's ok or not
