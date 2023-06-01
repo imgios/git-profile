@@ -14,6 +14,20 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 SCRIPT_NAME=$(basename $0)
 PROFILE_DIR=~/.gitprofile
 
+# This functions prints error messages
+#
+# $1 is the message to display
+error() {
+  local message=''
+  if [[ -z $1 ]]; then
+    message="Something went wrong!"
+  else
+    message=$1
+  fi
+  local timestamp=$(date +"%m-%d-%yT%T")
+  printf "[ %s ] - ERROR - %s" $timestamp $message
+}
+
 # This function prints a USAGE-related string
 get_usage() {
   echo "USAGE: ${SCRIPT_NAME%%.*} <profile-name>
