@@ -28,6 +28,20 @@ error() {
   printf "[ %s ] - ERROR - %s" $timestamp $message
 }
 
+# This functions prints info messages
+#
+# $1 is the message to display
+info() {
+  local message=''
+  if [[ -z $1 ]]; then
+    message="Hello! The author forgot to add the message 👀"
+  else
+    message=$1
+  fi
+  local timestamp=$(date +"%m-%d-%yT%T")
+  printf "[ %s ] - INFO - %s" $timestamp $message
+}
+
 # This function prints a USAGE-related string
 get_usage() {
   echo "USAGE: ${SCRIPT_NAME%%.*} <profile-name>
