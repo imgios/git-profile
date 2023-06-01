@@ -70,7 +70,7 @@ save_gitconfig() {
 check_git() {
   local path=`which git`
   # if path is an empty string means that git is not installed
-  if [[ -z path ]]; then
+  if [[ -z "$path" ]]; then
     return 1
   else
     return 0
