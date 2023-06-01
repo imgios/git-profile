@@ -11,8 +11,8 @@
 # Variables
 VERSION=1.0
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-PROFILE_DIR=$SCRIPT_DIR/profiles
 SCRIPT_NAME=$(basename $0)
+PROFILE_DIR=~/.gitprofile
 
 # This function prints a USAGE-related string
 get_usage() {
@@ -46,6 +46,15 @@ check_git() {
     return 1
   else
     return 0
+  fi
+}
+
+check_directory() {
+  # Check if a directory is present in the filesystem
+  if [[ -d "$1" ]]; then
+    return 0
+  else
+    return 1
   fi
 }
 
@@ -91,6 +100,12 @@ fi
 if [[ ! check_git ]]; then
   echo "ERROR: Git not found in the system!"
   exit 1;
+fi
+
+if ! check_directory $PROFILE_DIR ; then
+  if ! mkdir $PROFILE_DIR ; then
+    echo "ERROR: Unable to create profile directory '$PROFILE_DIR'. Please, create it manually."
+  fi
 fi
 
 # Replace the Git config and check if it's ok or not
