@@ -58,10 +58,10 @@ get_usage() {
 # This function save the actual .gitconfig in profiles/default.gitconfig
 save_gitconfig() {
   if cp ~/.gitconfig $PROFILE_DIR/$1.gitconfig; then
-    echo "INFO: Profile saved in $PROFILE_DIR/$1.gitconfig"
+    info "Profile saved in $PROFILE_DIR/$1.gitconfig"
     return 0
   else
-    echo "ERROR: Profile not saved! Be sure the profiles path exists in $PROFILE_DIR"
+    error "Profile not saved! Be sure the profiles path exists in $PROFILE_DIR"
     return 1
   fi
 }
@@ -126,20 +126,20 @@ fi
 # Check if git is present in the machine
 # if it's missing exit
 if [[ ! check_git ]]; then
-  echo "ERROR: Git not found in the system!"
+  error "Git not found in the system!"
   exit 1;
 fi
 
 if ! check_directory $PROFILE_DIR ; then
   if ! mkdir $PROFILE_DIR ; then
-    echo "ERROR: Unable to create profile directory '$PROFILE_DIR'. Please, create it manually."
+    error "Unable to create profile directory '$PROFILE_DIR'. Please, create it manually."
   fi
 fi
 
 # Replace the Git config and check if it's ok or not
 if cp $PROFILE_DIR/$1.gitconfig ~/.gitconfig; then
-  echo "INFO: Profile $1 applied!"
+  info "Profile $1 applied!"
 else
-  echo "ERROR: Profile $1 not applied! Be sure the file $1.gitconfig exists in $PROFILE_DIR"
+  error "Profile $1 not applied! Be sure the file $1.gitconfig exists in $PROFILE_DIR"
   exit 1
 fi
