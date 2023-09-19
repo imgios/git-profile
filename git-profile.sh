@@ -92,6 +92,18 @@ check_directory() {
   fi
 }
 
+# Check if the first argument is the profile name
+# If so, store it in a given variable
+# otherwise, throw an error.
+PROFILENAME=None
+if [[ ! "$1" =~ ^- ]]; then
+  PROFILENAME=$1
+else
+  error "Profile name must be passed as first argument!"
+  get_usage
+  exit 1
+fi
+
 # Script flags
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -V | --version )
@@ -122,12 +134,6 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     ;;
 esac; shift; done
 if [[ "$1" == '--' ]]; then shift; fi
-
-# See if the script has just one param (the file name)
-if [[ $# -ne 1 ]]; then
-    get_usage
-    exit 1
-fi
 
 # Check if git is present in the machine
 # if it's missing exit
