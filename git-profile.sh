@@ -14,10 +14,11 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 SCRIPT_NAME=$(basename $0)
 PROFILE_DIR=~/.gitprofile
 
-# This function prints error messages
-#
-# $1 is the message to display
 error() {
+  # This function prints error messages
+  #
+  # $1 is the message to display
+
   local message=''
   if [[ -z $1 ]]; then
     message="Something went wrong!"
@@ -28,10 +29,11 @@ error() {
   printf "[ %s ] - ERROR - %s" $timestamp $message
 }
 
-# This function prints info messages
-#
-# $1 is the message to display
 info() {
+  # This function prints info messages
+  #
+  # $1 is the message to display
+
   local message=''
   if [[ -z $1 ]]; then
     message="Hello! The author forgot to add the message 👀"
@@ -42,8 +44,9 @@ info() {
   printf "[ %s ] - INFO - %s" $timestamp $message
 }
 
-# This function prints a USAGE-related string
 get_usage() {
+  # This function prints a USAGE-related string
+
   echo "USAGE: ${SCRIPT_NAME%%.*} <profile-name>
   
   where: <profile-name> is a <profile-name>.gitconfig files in $PROFILE_DIR
@@ -55,8 +58,9 @@ get_usage() {
     -V,--version  Show script version."
 }
 
-# This function saves the actual .gitconfig in profiles/default.gitconfig
 save_gitconfig() {
+  # This function saves the actual .gitconfig in profiles/default.gitconfig
+
   if cp ~/.gitconfig $PROFILE_DIR/$1.gitconfig; then
     info "Profile saved in $PROFILE_DIR/$1.gitconfig"
     return 0
@@ -66,8 +70,9 @@ save_gitconfig() {
   fi
 }
 
-# This function checks if git is installed on the machine using which
 check_git() {
+  # This function checks if git is installed on the machine using which
+
   local path=`which git`
   # if path is an empty string means that git is not installed
   if [[ -z "$path" ]]; then
@@ -79,6 +84,7 @@ check_git() {
 
 check_directory() {
   # Check if a directory is present in the filesystem
+
   if [[ -d "$1" ]]; then
     return 0
   else
