@@ -54,6 +54,7 @@ get_usage() {
   flags:
     -h,--help     Show this help text.
     -s,--save     Save current .gitconfig in $PROFILE_DIR/default.gitconfig if no name is passed, otherwise it will be saved in $PROFILE_DIR/<name_passed>.gitconfig
+    -d,--dir      Specify the Git Profiles directory that will be used to retrieve/store all profiles.
     -a,--alias    Show bashrc alias to use the script from anywhere
     -V,--version  Show script version."
 }
@@ -118,6 +119,10 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     save_gitconfig "$PROFILE_NAME"
     exit
     ;;
+  -d | --dir )
+    if [[ -n "$2" ]]; then
+      PROFILE_DIR=$2
+    fi
   -a | --alias )
     echo "Paste the following string in your .bashrc to call the script from anywhere:"
     echo "alias git-profile='$SCRIPT_DIR/$SCRIPT_NAME.sh'"
