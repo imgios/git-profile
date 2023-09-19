@@ -148,8 +148,14 @@ if [[ ! check_git ]]; then
 fi
 
 if ! check_directory $PROFILE_DIR ; then
-  if ! mkdir $PROFILE_DIR ; then
-    error "Unable to create profile directory '$PROFILE_DIR'. Please, create it manually."
+  error "$PROFILE_DIR not found"
+  read -p "Seems like $PROFILE_DIR doesn't exist, do you want to create it? " REPLY
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    if ! mkdir $PROFILE_DIR ; then
+      error "Unable to create profile directory '$PROFILE_DIR'. Please, create it manually."
+    fi
+  else
+    info "$PROFILE_DIR won't be created, exiting!"
   fi
 fi
 
