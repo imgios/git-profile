@@ -14,7 +14,7 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 SCRIPT_NAME=$(basename $0)
 PROFILE_DIR=~/.gitprofile
 
-# This functions prints error messages
+# This function prints error messages
 #
 # $1 is the message to display
 error() {
@@ -28,7 +28,7 @@ error() {
   printf "[ %s ] - ERROR - %s" $timestamp $message
 }
 
-# This functions prints info messages
+# This function prints info messages
 #
 # $1 is the message to display
 info() {
@@ -55,7 +55,7 @@ get_usage() {
     -V,--version  Show script version."
 }
 
-# This function save the actual .gitconfig in profiles/default.gitconfig
+# This function saves the actual .gitconfig in profiles/default.gitconfig
 save_gitconfig() {
   if cp ~/.gitconfig $PROFILE_DIR/$1.gitconfig; then
     info "Profile saved in $PROFILE_DIR/$1.gitconfig"
