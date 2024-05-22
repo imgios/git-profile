@@ -39,7 +39,7 @@ jobs:
 
       - name: Usage tests
         run: |
-          ll ~/.gitprofile/
+          ls -halF ~/.gitprofile/
           failure=0
           ./git-profile.sh chuck
           profile_switch=$?
