@@ -40,7 +40,10 @@ jobs:
       - name: Usage tests
         run: |
           set +e
+          # Vars
           failure=0
+          test_success='\033[0;32mPASSED\033[0m \U00002714'
+          test_failure='\033[0;31mFAILED\033[0m \U0000274C'
           echo "========================================================"
           echo "Summary:"
           echo "========================================================"
@@ -48,26 +51,26 @@ jobs:
           profile_switch=$?
           email=`git config --get user.email`
           if [[ "$profile_switch" -eq "0" ]] && [[ "$email" == "chuck@buymore.com" ]]; then
-            echo -e "Switch Git profile test:\t\t\tPASSED \U00002714"
+            printf "%20s %10s" "Switch Git profile test:" ${test_success}
           else
-            echo -e "Switch Git profile test:\t\t\tFAILED \U0000274C"
+            printf "%20s %10s" "Switch Git profile test:" ${test_failure}
             failure=1
           fi
           mv ~/.gitprofile/morty.gitconfig ~/.gitconfig
           ./git-profile.sh --save > profile-save.log 2>&1
           profile_save=$?
           if [[ "profile_save" -eq "0" ]] && [[ -f ~/.gitprofile/default.gitconfig ]]; then
-            echo -e "Save current Git profile test:\t\t\tPASSED \U00002714"
+            printf "%20s %10s" "Save current Git profile test:" ${test_success}
           else
-            echo -e "Save current Git profile test:\t\t\tFAILED \U0000274C"
+            printf "%20s %10s" "Save current Git profile test:" ${test_failure}
             failure=1
           fi
           ./git-profile.sh --list > profile-list.log 2>&1
           profile_list=$?
           if [[ "profile_list" -eq "0" ]]; then
-            echo -e "List available Git profile test:\t\t\tPASSED \U00002714"
+            printf "%20s %10s" "List available Git profile test:" ${test_success}
           else
-            echo -e "List available Git profile test:\t\t\tFAILED \U0000274C"
+            printf "%20s %10s" "List available Git profile test:" ${test_failure}
             failure=1
           fi
           echo "========================================================"
