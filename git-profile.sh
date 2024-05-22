@@ -159,6 +159,12 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
 esac; shift; done
 if [[ "$1" == '--' ]]; then shift; fi
 
+# Check if profile was being passed
+if [[ "$PROFILE_NAME" == "None "]]; then
+  error "Profile name not passed as first argument!"
+  exit 1
+fi
+
 # Check if git is present in the machine
 # if it's missing exit
 if [[ ! check_git ]]; then
