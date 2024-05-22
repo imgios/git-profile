@@ -40,7 +40,10 @@ jobs:
       - name: Usage tests
         run: |
           failure=0
-          ./git-profile.sh chuck
+          echo "=============================================="
+          echo "Summary:"
+          echo "=============================================="
+          ./git-profile.sh chuck > profile-switch.log 2>&1
           profile_switch=$?
           email=`git config --get user.email`
           if [[ "$profile_switch" -eq "0" ]] && [[ "$email" == "chuck@buymore.com" ]]; then
@@ -50,7 +53,7 @@ jobs:
             failure=1
           fi
           mv ~/.gitprofile/morty.gitconfig ~/.gitconfig
-          ./git-profile.sh --save
+          ./git-profile.sh --save > profile-save.log 2>&1
           profile_save=$?
           if [[ "profile_save" -eq "0" ]] && [[ -e ~/.gitprofile/default.gitconfig ]]; then
             echo -e "Save current Git profile test:        PASSED \U00002714"
@@ -58,6 +61,15 @@ jobs:
             echo -e "Save current Git profile test:        FAILED \U0000274C"
             failure=1
           fi
+          echo "=============================================="
+          echo "Logs:"
+          echo "=============================================="
+          echo "Switch Git profile test logs:"
+          cat profile-switch.log
+          echo "----------------------------------------------"
+          echo "Save current Git profile test logs:"
+          cat profile-save.log
+          echo "=============================================="
           exit $failure
           
           
