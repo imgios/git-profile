@@ -65,11 +65,13 @@ jobs:
           echo "=============================================="
           echo "Logs:"
           echo "=============================================="
-          echo "Switch Git profile test logs:"
+          echo "* Switch Git profile test logs:"
           cat profile-switch.log
+          echo # new line
           echo "----------------------------------------------"
-          echo "Save current Git profile test logs:"
+          echo "* Save current Git profile test logs:"
           cat profile-save.log
+          echo # new line
           echo "=============================================="
           exit $failure
           
