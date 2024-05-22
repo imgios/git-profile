@@ -41,9 +41,9 @@ jobs:
         run: |
           set +e
           failure=0
-          echo "=============================================="
+          echo "========================================================"
           echo "Summary:"
-          echo "=============================================="
+          echo "========================================================"
           ./git-profile.sh chuck > profile-switch.log 2>&1
           profile_switch=$?
           email=`git config --get user.email`
@@ -70,21 +70,21 @@ jobs:
             echo -e "List available Git profile test:\t\t\tFAILED \U0000274C"
             failure=1
           fi
-          echo "=============================================="
+          echo "========================================================"
           echo "Logs:"
-          echo "=============================================="
+          echo "========================================================"
           echo "* Switch Git profile test logs:"
           cat profile-switch.log
           echo # new line
-          echo "----------------------------------------------"
+          echo "--------------------------------------------------------"
           echo "* Save current Git profile test logs:"
           cat profile-save.log
           echo # new line
-          echo "----------------------------------------------"
+          echo "--------------------------------------------------------"
           echo "* List available Git profile test logs:"
           cat profile-list.log
           echo # new line
-          echo "=============================================="
+          echo "========================================================"
           exit $failure
           
           
