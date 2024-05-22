@@ -62,6 +62,14 @@ jobs:
             echo -e "Save current Git profile test:\t\t\tFAILED \U0000274C"
             failure=1
           fi
+          ./git-profile.sh --list > profile-list.log 2>&1
+          profile_list=$?
+          if [[ "profile_list" -eq "0" ]]; then
+            echo -e "List available Git profile test:\t\t\tPASSED \U00002714"
+          else
+            echo -e "List available Git profile test:\t\t\tFAILED \U0000274C"
+            failure=1
+          fi
           echo "=============================================="
           echo "Logs:"
           echo "=============================================="
@@ -71,6 +79,10 @@ jobs:
           echo "----------------------------------------------"
           echo "* Save current Git profile test logs:"
           cat profile-save.log
+          echo # new line
+          echo "----------------------------------------------"
+          echo "* List available Git profile test logs:"
+          cat profile-list.log
           echo # new line
           echo "=============================================="
           exit $failure
