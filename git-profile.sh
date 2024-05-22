@@ -71,6 +71,19 @@ save_gitconfig() {
   fi
 }
 
+list_gitconfig() {
+  # This function lists the content of $PROFILE_DIR
+
+  if [ -d "$PROFILE_DIR" ]; then
+    profiles=(`ls ${PROFILE_DIR} | grep gitconfig | sed 's/\.gitconfig//g'`)
+    if [ "${#profiles[@]}" -gt 0 ] ; then
+      info "Found ${#profiles[@]} profiles: ${profiles[@]}"
+    else
+      info "No profile found in $PROFILE_DIR"
+    fi
+  fi
+}
+
 check_git() {
   # This function checks if git is installed on the machine using which
 
