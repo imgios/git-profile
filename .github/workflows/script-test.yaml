@@ -41,6 +41,7 @@ jobs:
         run: |
           ls -halF ~/.gitprofile/
           failure=0
+          pwd
           ./git-profile.sh chuck
           profile_switch=$?
           email=`git config --get user.email`
