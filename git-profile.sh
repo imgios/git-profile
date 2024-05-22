@@ -54,6 +54,7 @@ get_usage() {
   flags:
     -h,--help     Show this help text.
     -s,--save     Save current .gitconfig in $PROFILE_DIR/default.gitconfig if no name is passed, otherwise it will be saved in $PROFILE_DIR/<name_passed>.gitconfig
+    -l,--list     List all the available profiles in $PROFILE_DIR
     -d,--dir      Specify the Git Profiles directory that will be used to retrieve/store all profiles.
     -a,--alias    Show bashrc alias to use the script from anywhere
     -V,--version  Show script version."
@@ -68,6 +69,19 @@ save_gitconfig() {
   else
     error "Profile not saved! Be sure the profiles path exists in $PROFILE_DIR"
     return 1
+  fi
+}
+
+list_gitconfig() {
+  # This function lists the content of $PROFILE_DIR
+
+  if [ -d "$PROFILE_DIR" ]; then
+    profiles=(`ls ${PROFILE_DIR} | grep gitconfig | sed 's/\.gitconfig//g'`)
+    if [ "${#profiles[@]}" -gt 0 ] ; then
+      info "Found ${#profiles[@]} profiles: ${profiles[@]}"
+    else
+      info "No profile found in $PROFILE_DIR"
+    fi
   fi
 }
 
@@ -117,6 +131,10 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
       PROFILE_NAME=$2
     fi 
     save_gitconfig "$PROFILE_NAME"
+    exit
+    ;;
+  -l | --list )
+    list_gitconfig
     exit
     ;;
   -d | --dir )
