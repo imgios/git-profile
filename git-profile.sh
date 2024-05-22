@@ -111,7 +111,7 @@ check_directory() {
 # If so, store it in a given variable
 # otherwise, throw an error.
 PROFILENAME=None
-if [[ ! "$1" =~ ^- ]]; then
+if [[ -n "$1" ]] && [[ ! "$1" =~ ^- ]]; then
   PROFILENAME=$1
 # else
 #   error "Profile name must be passed as first argument!"
