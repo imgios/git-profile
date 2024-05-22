@@ -5,12 +5,10 @@ on:
     branches:
       - main
       - dev
-      - ci/test-script
   pull_request:
     branches:
       - main
       - dev
-      - ci/test-script
 
 jobs:
   test:
