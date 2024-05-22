@@ -1,0 +1,95 @@
+name: Git-profile Tests
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+          
+      - name: Set git-profile execution
+        run: chmod +x git-profile.sh
+
+      - name: Create git-profile directory
+        run: mkdir ~/.gitprofile
+
+      - name: Create dummy git profiles
+        run: |
+          base64 -d <<< "W3VzZXJdCiAgbmFtZSA9IENodWNrIEJhcnRvd3NraQogIGVtYWlsID0gY2h1Y2tAYnV5bW9yZS5jb20KCltjb2xvcl0KICB1aSA9IGF1dG8KClthbGlhc10KICBjbyA9IGNoZWNrb3V0CiAgY2kgPSBjb21taXQKICBzdCA9IHN0YXR1cwogIGJyID0gYnJhbmNoIC1hdgogIGJyZGVsID0gYnJhbmNoIC1ECgogICMgU2hvdyBhbGwgY29uZmlndXJlZCBhbGlhc2VzCiAgYWxpYXNlcyA9ICFnaXQgY29uZmlnIC0tbGlzdCB8IGdyZXAgJ2FsaWFzXFwuJyB8IHNlZCAncy9hbGlhc1xcLlxcKFtePV0qXFwpPVxcKC4qXFwpL1xcMVxcIFx0ID0+IFxcMi8nIHwgc29ydAoKICAjIExvZyBmb3JtYXQgdmlldwogIGxnID0gbG9nIC0tZ3JhcGggLS1wcmV0dHk9Zm9ybWF0OiclQ3JlZCVoJUNyZXNldCAtJUMoeWVsbG93KSVkJUNyZXNldCAlcyAlQ2dyZWVuKCVjcikgJUMoYm9sZCBibHVlKTwlYW4+JUNyZXNldCcgLS1hYmJyZXYtY29tbWl0IC0tZGF0ZT1yZWxhdGl2ZQogIGhpc3QgPSBsb2cgLS1wcmV0dHk9Zm9ybWF0OlwiJWggJWFkIHwgJXMlZCBbJWFuXVwiIC0tZ3JhcGggLS1kYXRlPXNob3J0" > ~/.gitprofile/chuck.gitconfig
+          cat ~/.gitprofile/chuck.gitconfig
+          cp ~/.gitprofile/chuck.gitconfig ~/.gitprofile/morty.gitconfig
+          sed -i "s/Chuck Bartowski/Morty Smith/g" ~/.gitprofile/morty.gitconfig
+          sed -i "s/chuck@buymore.com/morty@messmaker.com/g" ~/.gitprofile/morty.gitconfig
+          cat ~/.gitprofile/morty.gitconfig
+
+      - name: Usage tests
+        run: |
+          set +e
+          # Vars
+          failure=0
+          passed() {
+            printf "%40s \033[0;32m%10s\033[0m \U00002714\n" "$1" "PASSED"
+          }
+          failed() {
+            printf "%40s \033[0;31m%10s\033[0m \U0000274C\n" "$1" "FAILED"
+          }
+          echo "========================================================"
+          echo "Summary:"
+          echo "========================================================"
+          ./git-profile.sh chuck > profile-switch.log 2>&1
+          profile_switch=$?
+          email=`git config --get user.email`
+          if [[ "$profile_switch" -eq "0" ]] && [[ "$email" == "chuck@buymore.com" ]]; then
+            passed "Switch Git profile test:"
+          else
+            failed "Switch Git profile test:"
+            failure=1
+          fi
+          mv ~/.gitprofile/morty.gitconfig ~/.gitconfig
+          ./git-profile.sh --save > profile-save.log 2>&1
+          profile_save=$?
+          if [[ "profile_save" -eq "0" ]] && [[ -f ~/.gitprofile/default.gitconfig ]]; then
+           passed "Save current Git profile test:"
+          else
+            failed "Save current Git profile test:"
+            failure=1
+          fi
+          ./git-profile.sh --list > profile-list.log 2>&1
+          profile_list=$?
+          if [[ "profile_list" -eq "0" ]]; then
+            passed "List available Git profile test:"
+          else
+            failed "List available Git profile test:"
+            failure=1
+          fi
+          echo "========================================================"
+          echo "Logs:"
+          echo "========================================================"
+          echo "* Switch Git profile test logs:"
+          cat profile-switch.log
+          echo # new line
+          echo "--------------------------------------------------------"
+          echo "* Save current Git profile test logs:"
+          cat profile-save.log
+          echo # new line
+          echo "--------------------------------------------------------"
+          echo "* List available Git profile test logs:"
+          cat profile-list.log
+          echo # new line
+          echo "========================================================"
+          exit $failure
+          
+          
