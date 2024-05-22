@@ -160,7 +160,7 @@ esac; shift; done
 if [[ "$1" == '--' ]]; then shift; fi
 
 # Check if profile was being passed
-if [[ "$PROFILE_NAME" == "None "]]; then
+if [[ "$PROFILE_NAME" == "None" ]]; then
   error "Profile name not passed as first argument!"
   exit 1
 fi
