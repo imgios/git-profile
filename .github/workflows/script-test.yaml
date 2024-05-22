@@ -53,7 +53,7 @@ jobs:
             failure=1
           fi
           mv ~/.gitprofile/morty.gitconfig ~/.gitconfig
-          ./git-profile.sh --save > profile-save.log 2>&1
+          ./git-profile.sh --save > profile-save.log # 2>&1
           profile_save=$?
           if [[ "profile_save" -eq "0" ]] && [[ -e ~/.gitprofile/default.gitconfig ]]; then
             echo -e "Save current Git profile test:        PASSED \U00002714"
