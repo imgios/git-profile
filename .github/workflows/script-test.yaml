@@ -39,9 +39,7 @@ jobs:
 
       - name: Usage tests
         run: |
-          ls -halF ~/.gitprofile/
           failure=0
-          pwd && ls -halF
           ./git-profile.sh chuck
           profile_switch=$?
           email=`git config --get user.email`
@@ -52,8 +50,7 @@ jobs:
             failure=1
           fi
           mv ~/.gitprofile/morty.gitconfig ~/.gitconfig
-          pwd && ls -halF
-          ./git-profile --save
+          ./git-profile.sh --save
           profile_save=$?
           if [[ "profile_save" -eq "0" ]] && [[ -e ~/.gitprofile/default.gitconfig ]]; then
             echo -e "Save current Git profile test:        PASSED \U00002714"
