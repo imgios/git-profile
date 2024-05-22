@@ -123,6 +123,7 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     if [[ -n "$2" ]]; then
       PROFILE_DIR=$2
     fi
+    ;;
   -a | --alias )
     echo "Paste the following string in your .bashrc to call the script from anywhere:"
     echo "alias git-profile='$SCRIPT_DIR/$SCRIPT_NAME.sh'"
