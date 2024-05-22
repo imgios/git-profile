@@ -53,9 +53,17 @@ jobs:
           profile_switch=$?
           email=`git config --get user.email`
           if [[ "$profile_switch" -eq "0" ]] && [[ "$email" == "chuck@buymore.com" ]]; then
-            passed "Switch Git profile test:"
+            passed "Switch to existing Git profile test:"
           else
-            failed "Switch Git profile test:"
+            failed "Switch to existing Git profile test:"
+            failure=1
+          fi
+          ./git-profile.sh > no-arguments.log 2>&1
+          profile_switch=$?
+          if [[ "$profile_switch" -eq "1" ]]; then
+            passed "Exec bash script with no arguments test:"
+          else
+            failed "Exec bash script with no arguments test:"
             failure=1
           fi
           mv ~/.gitprofile/morty.gitconfig ~/.gitconfig
@@ -80,6 +88,10 @@ jobs:
           echo "========================================================"
           echo "* Switch Git profile test logs:"
           cat profile-switch.log
+          echo # new line
+          echo "--------------------------------------------------------"
+          echo "* Exec bash script with no arguments test:"
+          cat no-arguments.log
           echo # new line
           echo "--------------------------------------------------------"
           echo "* Save current Git profile test logs:"
