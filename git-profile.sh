@@ -113,10 +113,10 @@ check_directory() {
 PROFILENAME=None
 if [[ ! "$1" =~ ^- ]]; then
   PROFILENAME=$1
-else
-  error "Profile name must be passed as first argument!"
-  get_usage
-  exit 1
+# else
+#   error "Profile name must be passed as first argument!"
+#   get_usage
+#   exit 1
 fi
 
 # Script flags
