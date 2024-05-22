@@ -39,7 +39,7 @@ jobs:
 
       - name: Usage tests
         run: |
-          set -e
+          set +e
           failure=0
           echo "=============================================="
           echo "Summary:"
