@@ -48,18 +48,18 @@ jobs:
           profile_switch=$?
           email=`git config --get user.email`
           if [[ "$profile_switch" -eq "0" ]] && [[ "$email" == "chuck@buymore.com" ]]; then
-            echo -e "Switch Git profile test:        PASSED \U00002714"
+            echo -e "Switch Git profile test:\t\t\tPASSED \U00002714"
           else
-            echo -e "Switch Git profile test:        FAILED \U0000274C"
+            echo -e "Switch Git profile test:\t\t\tFAILED \U0000274C"
             failure=1
           fi
           mv ~/.gitprofile/morty.gitconfig ~/.gitconfig
           ./git-profile.sh --save > profile-save.log 2>&1
           profile_save=$?
           if [[ "profile_save" -eq "0" ]] && [[ -f ~/.gitprofile/default.gitconfig ]]; then
-            echo -e "Save current Git profile test:        PASSED \U00002714"
+            echo -e "Save current Git profile test:\t\t\tPASSED \U00002714"
           else
-            echo -e "Save current Git profile test:        FAILED \U0000274C"
+            echo -e "Save current Git profile test:\t\t\tFAILED \U0000274C"
             failure=1
           fi
           echo "=============================================="
