@@ -23,10 +23,10 @@ error() {
   if [[ -z $1 ]]; then
     message="Something went wrong!"
   else
-    message=$1
+    message="$1"
   fi
   local timestamp=$(date +"%m-%d-%yT%T")
-  printf "[ %s ] - ERROR - %s" $timestamp $message
+  printf "[ %s ] - ERROR - %s" "$timestamp" "$message"
 }
 
 info() {
@@ -38,10 +38,10 @@ info() {
   if [[ -z $1 ]]; then
     message="Hello! The author forgot to add the message 👀"
   else
-    message=$1
+    message="$1"
   fi
   local timestamp=$(date +"%m-%d-%yT%T")
-  printf "[ %s ] - INFO - %s" $timestamp $message
+  printf "[ %s ] - INFO - %s" "$timestamp" "$message"
 }
 
 get_usage() {
