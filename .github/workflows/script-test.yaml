@@ -43,10 +43,10 @@ jobs:
           # Vars
           failure=0
           passed() {
-            printf "%25s \033[0;32m%10s\033[0m \U00002714\n" $@ "PASSED"
+            printf "%20s \033[0;32m%10s\033[0m \U00002714\n" "$1" "PASSED"
           }
           failed() {
-            printf "%25s \033[0;31m%10s\033[0m \U0000274C\n" $@ "FAILED"
+            printf "%20s \033[0;31m%10s\033[0m \U0000274C\n" "$1" "FAILED"
           }
           echo "========================================================"
           echo "Summary:"
