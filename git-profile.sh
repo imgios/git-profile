@@ -187,8 +187,8 @@ fi
 
 # Replace the Git config and check if it's ok or not
 if cp $PROFILE_DIR/$1.gitconfig ~/.gitconfig; then
-  info "Profile $1 applied!"
+  info "Profile $PROFILENAME applied!"
 else
-  error "Profile $1 not applied! Be sure the file $1.gitconfig exists in $PROFILE_DIR"
+  error "Profile $PROFILENAME not applied! Be sure the file $1.gitconfig exists in $PROFILE_DIR"
   exit 1
 fi
