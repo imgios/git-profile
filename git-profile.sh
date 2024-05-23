@@ -47,7 +47,7 @@ info() {
 get_usage() {
   # This function prints a USAGE-related string
 
-  echo "USAGE: ${SCRIPT_NAME%%.*} <profile-name>
+  echo "USAGE: ${SCRIPT_NAME%%.*} <profile-name> [-hsldaV]
   
   where: <profile-name> is a <profile-name>.gitconfig files in $PROFILE_DIR
   
