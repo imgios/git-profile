@@ -86,15 +86,17 @@ save() {
   fi
 }
 
-list_gitconfig() {
+list() {
   # This function lists the content of $PROFILE_DIR
 
   if [ -d "$PROFILE_DIR" ]; then
     profiles=(`ls ${PROFILE_DIR} | grep gitconfig | sed 's/\.gitconfig//g'`)
     if [ "${#profiles[@]}" -gt 0 ] ; then
       info "Found ${#profiles[@]} profiles: ${profiles[@]}"
+      return 0
     else
       info "No profile found in $PROFILE_DIR"
+      return 1
     fi
   fi
 }
@@ -192,6 +194,7 @@ main() {
       fi
       ;;
     list)
+      list && exit 0 || exit 1
       ;;
     help)
       ;;
