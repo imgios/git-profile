@@ -75,13 +75,15 @@ When you're done populating the profiles path, you can start using the script:
 
 ```shell
 $ git-profile --help
-USAGE: git-profile <profile-name>
+USAGE: git-profile <profile-name> [-hsldaV]
   
   where: <profile-name> is a <profile-name>.gitconfig files in ~/git-profile/profiles/
   
   flags:
     -h,--help     Show this help text.
-    -s,--save     Save current .gitconfig in ~/git-profile/profiles/default.gitconfig
+    -s,--save     Save current .gitconfig in $PROFILE_DIR/default.gitconfig if no name is passed, otherwise it will be saved in $PROFILE_DIR/<name_passed>.gitconfig
+    -l,--list     List all the available profiles in $PROFILE_DIR
+    -d,--dir      Specify the Git Profiles directory that will be used to retrieve/store all profiles.
     -a,--alias    Show bashrc alias to use the script from anywhere
     -V,--version  Show script version.
     
