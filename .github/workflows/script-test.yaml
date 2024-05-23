@@ -49,7 +49,7 @@ jobs:
           echo "========================================================"
           echo "Summary:"
           echo "========================================================"
-          ./git-profile.sh chuck > profile-switch.log 2>&1
+          ./git-profile.sh set chuck > profile-switch.log 2>&1
           profile_switch=$?
           email=`git config --get user.email`
           if [[ "$profile_switch" -eq "0" ]] && [[ "$email" == "chuck@buymore.com" ]]; then
@@ -67,7 +67,7 @@ jobs:
             failure=1
           fi
           mv ~/.gitprofile/morty.gitconfig ~/.gitconfig
-          ./git-profile.sh --save > profile-save.log 2>&1
+          ./git-profile.sh save > profile-save.log 2>&1
           profile_save=$?
           if [[ "profile_save" -eq "0" ]] && [[ -f ~/.gitprofile/default.gitconfig ]]; then
            passed "Save current Git profile test:"
@@ -75,7 +75,7 @@ jobs:
             failed "Save current Git profile test:"
             failure=1
           fi
-          ./git-profile.sh --list > profile-list.log 2>&1
+          ./git-profile.sh list > profile-list.log 2>&1
           profile_list=$?
           if [[ "profile_list" -eq "0" ]]; then
             passed "List available Git profile test:"
