@@ -214,6 +214,7 @@ main() {
   # This function is the script entry point
   
   args=( "$@" )
+  debug "Arguments being parsed: ${args[*]}"
 
   # Check for options
   for arg in "${args[@]}"; do
