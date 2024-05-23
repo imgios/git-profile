@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
           
       - name: Set git-profile execution
-        run: chmod +x git-profile.sh
+        run: chmod +x git-profile
 
       - name: Create git-profile directory
         run: mkdir ~/.gitprofile
@@ -51,7 +51,7 @@ jobs:
           echo "========================================================"
 
           # Switch to existing Git profile test
-          ./git-profile.sh set chuck -v > profile-switch.log 2>&1
+          ./git-profile set chuck -v > profile-switch.log 2>&1
           profile_switch=$?
           email=`git config --get user.email`
           if [[ "$profile_switch" -eq "0" ]] && [[ "$email" == "chuck@buymore.com" ]]; then
@@ -62,7 +62,7 @@ jobs:
           fi
 
           # Exec bash script with no arguments test
-          ./git-profile.sh -v > no-arguments.log 2>&1
+          ./git-profile -v > no-arguments.log 2>&1
           profile_switch=$?
           if [[ "$profile_switch" -eq "1" ]]; then
             passed "Exec bash script with no arguments test:"
@@ -73,7 +73,7 @@ jobs:
 
           # Save current Git profile with no name test
           mv ~/.gitprofile/morty.gitconfig ~/.gitconfig
-          ./git-profile.sh save -v > profile-save.log 2>&1
+          ./git-profile save -v > profile-save.log 2>&1
           profile_save=$?
           if [[ "profile_save" -eq "0" ]] && [[ -f ~/.gitprofile/default.gitconfig ]]; then
            passed "Save current Git profile with no name test:"
@@ -83,7 +83,7 @@ jobs:
           fi
 
           # Save current Git profile as github test
-          ./git-profile.sh save github -v > profile-save-gh.log 2>&1
+          ./git-profile save github -v > profile-save-gh.log 2>&1
           profile_save=$?
           if [[ "profile_save" -eq "0" ]] && [[ -f ~/.gitprofile/default.gitconfig ]]; then
            passed "Save current Git profile as github test:"
@@ -93,7 +93,7 @@ jobs:
           fi
 
           # List available Git profile test
-          ./git-profile.sh list -v > profile-list.log 2>&1
+          ./git-profile list -v > profile-list.log 2>&1
           profile_list=$?
           if [[ "profile_list" -eq "0" ]]; then
             passed "List available Git profile test:"
