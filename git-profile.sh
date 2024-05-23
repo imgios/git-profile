@@ -232,46 +232,6 @@ main() {
       ;;
   esac
 
-  # Script flags
-  while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
-    -V | --version )
-      echo $VERSION
-      exit 0
-      ;;
-    -s | --save )
-      PROFILE_NAME="default"
-      if [[ -n "$2" ]]; then
-        PROFILE_NAME=$2
-      fi 
-      save_gitconfig "$PROFILE_NAME"
-      exit 0
-      ;;
-    -l | --list )
-      list_gitconfig
-      exit 0
-      ;;
-    -d | --dir )
-      if [[ -n "$2" ]]; then
-        PROFILE_DIR=$2
-      fi
-      ;;
-    -a | --alias )
-      echo "Paste the following string in your .bashrc to call the script from anywhere:"
-      echo "alias git-profile='$SCRIPT_DIR/$SCRIPT_NAME.sh'"
-      exit 0
-      ;;
-    -h | --help )
-      get_usage
-      exit 0
-      ;;
-    * )
-      echo "Flag $1 not recognised!"
-      get_usage
-      exit 0
-      ;;
-  esac; shift; done
-  if [[ "$1" == '--' ]]; then shift; fi
-
   # Check if profile was being passed
   if [[ "$PROFILE_NAME" == "None" ]]; then
     error "Profile name not passed as first argument!"
