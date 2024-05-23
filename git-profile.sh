@@ -246,7 +246,7 @@ main() {
       fi
       ;;
     save)
-      if [[ -n "$2" ]] && [[ ! "$1" =~ ^- ]]; then
+      if [[ -n "$2" ]] && [[ ! "$2" =~ ^- ]]; then
         save "$2" && exit 0 || exit 1
       else
         save "default" && exit 0 || exit 1
