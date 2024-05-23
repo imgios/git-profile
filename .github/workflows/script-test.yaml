@@ -71,9 +71,17 @@ jobs:
           ./git-profile.sh save > profile-save.log 2>&1
           profile_save=$?
           if [[ "profile_save" -eq "0" ]] && [[ -f ~/.gitprofile/default.gitconfig ]]; then
-           passed "Save current Git profile test:"
+           passed "Save current Git profile with no name test:"
           else
-            failed "Save current Git profile test:"
+            failed "Save current Git profile with no name test:"
+            failure=1
+          fi
+          ./git-profile.sh save github > profile-save-gh.log 2>&1
+          profile_save=$?
+          if [[ "profile_save" -eq "0" ]] && [[ -f ~/.gitprofile/default.gitconfig ]]; then
+           passed "Save current Git profile as github test:"
+          else
+            failed "Save current Git profile as github test:"
             failure=1
           fi
           ./git-profile.sh list > profile-list.log 2>&1
@@ -95,8 +103,13 @@ jobs:
           cat no-arguments.log
           echo # new line
           echo "--------------------------------------------------------"
-          echo "* Save current Git profile test logs:"
+          echo "* Save current Git profile with no name test logs:"
           cat profile-save.log
+          echo # new line
+          echo "--------------------------------------------------------"
+          echo "* Save current Git profile as github test logs:"
+          cat profile-save-gh.log
+          ls -halF ~/.gitprofile
           echo # new line
           echo "--------------------------------------------------------"
           echo "* List available Git profile test logs:"
