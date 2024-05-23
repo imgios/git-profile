@@ -231,12 +231,6 @@ main() {
       exit 1
       ;;
   esac
-
-  # Check if profile was being passed
-  if [[ "$PROFILE_NAME" == "None" ]]; then
-    error "Profile name not passed as first argument!"
-    exit 1
-  fi
 }
 
 main "$@"
