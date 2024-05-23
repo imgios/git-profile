@@ -110,7 +110,7 @@ check_directory() {
 # Check if the first argument is the profile name
 # If so, store it in a given variable
 # otherwise, throw an error.
-PROFILENAME=None
+PROFILENAME="None"
 first_positional="$1"
 if [[ ! -z "${first_positional// }" ]] && [[ ! "$1" =~ ^- ]]; then
   PROFILENAME=$1
@@ -163,6 +163,9 @@ if [[ "$1" == '--' ]]; then shift; fi
 # Check if profile was being passed
 if [[ "$PROFILE_NAME" == "None" ]]; then
   error "Profile name not passed as first argument!"
+  exit 1
+elif [ "$PROFILE_NAME" = "None" ]; then
+  error "Profile name equals None!"
   exit 1
 fi
 
