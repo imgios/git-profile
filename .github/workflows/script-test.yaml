@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - feat/verb-like
   pull_request:
     branches:
       - main
