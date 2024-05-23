@@ -125,6 +125,8 @@ list() {
       info "No profile found in $PROFILE_DIR"
       return 1
     fi
+  else
+    error "$PROFILE_DIR not found in the system."
   fi
 }
 
