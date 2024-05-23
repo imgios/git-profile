@@ -41,15 +41,17 @@ jobs:
           # Vars
           failure=0
           passed() {
-            printf "%40s \033[0;32m%10s\033[0m \U00002714\n" "$1" "PASSED"
+            printf "%50s \033[0;32m%10s\033[0m \U00002714\n" "$1" "PASSED"
           }
           failed() {
-            printf "%40s \033[0;31m%10s\033[0m \U0000274C\n" "$1" "FAILED"
+            printf "%50s \033[0;31m%10s\033[0m \U0000274C\n" "$1" "FAILED"
           }
           echo "========================================================"
           echo "Summary:"
           echo "========================================================"
-          ./git-profile.sh chuck > profile-switch.log 2>&1
+
+          # Switch to existing Git profile test
+          ./git-profile.sh set chuck > profile-switch.log 2>&1
           profile_switch=$?
           email=`git config --get user.email`
           if [[ "$profile_switch" -eq "0" ]] && [[ "$email" == "chuck@buymore.com" ]]; then
@@ -58,6 +60,8 @@ jobs:
             failed "Switch to existing Git profile test:"
             failure=1
           fi
+
+          # Exec bash script with no arguments test
           ./git-profile.sh > no-arguments.log 2>&1
           profile_switch=$?
           if [[ "$profile_switch" -eq "1" ]]; then
@@ -66,16 +70,30 @@ jobs:
             failed "Exec bash script with no arguments test:"
             failure=1
           fi
+
+          # Save current Git profile with no name test
           mv ~/.gitprofile/morty.gitconfig ~/.gitconfig
-          ./git-profile.sh --save > profile-save.log 2>&1
+          ./git-profile.sh save > profile-save.log 2>&1
           profile_save=$?
           if [[ "profile_save" -eq "0" ]] && [[ -f ~/.gitprofile/default.gitconfig ]]; then
-           passed "Save current Git profile test:"
+           passed "Save current Git profile with no name test:"
           else
-            failed "Save current Git profile test:"
+            failed "Save current Git profile with no name test:"
             failure=1
           fi
-          ./git-profile.sh --list > profile-list.log 2>&1
+
+          # Save current Git profile as github test
+          ./git-profile.sh save github > profile-save-gh.log 2>&1
+          profile_save=$?
+          if [[ "profile_save" -eq "0" ]] && [[ -f ~/.gitprofile/default.gitconfig ]]; then
+           passed "Save current Git profile as github test:"
+          else
+            failed "Save current Git profile as github test:"
+            failure=1
+          fi
+
+          # List available Git profile test
+          ./git-profile.sh list > profile-list.log 2>&1
           profile_list=$?
           if [[ "profile_list" -eq "0" ]]; then
             passed "List available Git profile test:"
@@ -94,8 +112,13 @@ jobs:
           cat no-arguments.log
           echo # new line
           echo "--------------------------------------------------------"
-          echo "* Save current Git profile test logs:"
+          echo "* Save current Git profile with no name test logs:"
           cat profile-save.log
+          echo # new line
+          echo "--------------------------------------------------------"
+          echo "* Save current Git profile as github test logs:"
+          cat profile-save-gh.log
+          ls -halF ~/.gitprofile
           echo # new line
           echo "--------------------------------------------------------"
           echo "* List available Git profile test logs:"
