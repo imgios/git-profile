@@ -110,6 +110,23 @@ check_directory() {
 main() {
   # This function is the script entry point
 
+  # Check if the first argument is a command or not
+  case $1 in
+    set)
+      ;;
+    save)
+      ;;
+    list)
+      ;;
+    help)
+      ;;
+    version)
+      ;;
+    *)
+      get_usage
+      exit 1
+      ;;
+  esac
   # Check if the first argument is the profile name
   # If so, store it in a given variable
   # otherwise, throw an error.
