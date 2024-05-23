@@ -197,8 +197,12 @@ main() {
       list && exit 0 || exit 1
       ;;
     help)
+      get_usage
+      exit 0
       ;;
     version)
+      echo $VERSION
+      exit 0
       ;;
     *)
       get_usage
