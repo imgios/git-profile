@@ -68,7 +68,7 @@ get_usage() {
     ${SCRIPT_NAME%%.*} save work -d /etc/.gitprofile
     ${SCRIPT_NAME%%.*} list
     
-  Feedbacks and issues can be reported on https://github.com/imgios/git-profile"
+  Feedbacks and issues can be reported at https://github.com/imgios/git-profile"
 }
 
 save_gitconfig() {
