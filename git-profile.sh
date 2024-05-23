@@ -27,7 +27,7 @@ error() {
     message="$1"
   fi
   local timestamp=$(date +"%m-%d-%yT%T")
-  printf "[ %s ] - ERROR - %s" "$timestamp" "$message"
+  printf "[ %s ] - ERROR - %s\n" "$timestamp" "$message"
 }
 
 info() {
@@ -42,7 +42,7 @@ info() {
     message="$1"
   fi
   local timestamp=$(date +"%m-%d-%yT%T")
-  printf "[ %s ] - INFO - %s" "$timestamp" "$message"
+  printf "[ %s ] - INFO - %s\n" "$timestamp" "$message"
 }
 
 debug() {
@@ -63,7 +63,7 @@ debug() {
     message="$1"
   fi
   local timestamp=$(date +"%m-%d-%yT%T")
-  printf "[ %s ] - DEBUG - %s" "$timestamp" "$message"
+  printf "[ %s ] - DEBUG - %s\n" "$timestamp" "$message"
 }
 
 get_usage() {
