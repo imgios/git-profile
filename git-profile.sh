@@ -13,6 +13,7 @@ VERSION=1.1
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 SCRIPT_NAME=$(basename $0)
 PROFILE_DIR=~/.gitprofile
+VERBOSE=false
 
 error() {
   # This function prints error messages
@@ -175,6 +176,27 @@ set() {
 
 main() {
   # This function is the script entry point
+  
+  args=( "$@" )
+
+  # Check for options
+  for arg in "${args[@]}"; do
+    if [[ "$arg" =~ ^- && ! "$arg" == "--" ]]; then
+      case $arg in
+        -d | --dir)
+          if [[ -n "$2" ]]; then
+            PROFILE_DIR=$2
+          else
+            error "$arg must be used with a value to specify the profiles directory!"
+            exit 1
+          fi
+          ;;
+        -v | --verbose)
+          VERBOSE=true
+          ;;
+      esac
+    fi
+  done
 
   # Check if the first argument is a command or not
   case $1 in
