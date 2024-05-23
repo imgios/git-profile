@@ -110,10 +110,10 @@ check_directory() {
 # Check if the first argument is the profile name
 # If so, store it in a given variable
 # otherwise, throw an error.
-PROFILENAME="None"
+PROFILE_NAME="None"
 first_positional="$1"
 if [[ ! -z "${first_positional// }" ]] && [[ ! "$1" =~ ^- ]]; then
-  PROFILENAME=$1
+  PROFILE_NAME=$1
 # else
 #   error "Profile name must be passed as first argument!"
 #   get_usage
@@ -164,9 +164,6 @@ if [[ "$1" == '--' ]]; then shift; fi
 if [[ "$PROFILE_NAME" == "None" ]]; then
   error "Profile name not passed as first argument!"
   exit 1
-elif [ "$PROFILE_NAME" = "None" ]; then
-  error "Profile name equals None!"
-  exit 1
 fi
 
 # Check if git is present in the machine
@@ -190,8 +187,8 @@ fi
 
 # Replace the Git config and check if it's ok or not
 if cp $PROFILE_DIR/$1.gitconfig ~/.gitconfig; then
-  info "Profile $PROFILENAME applied!"
+  info "Profile $PROFILE_NAME applied!"
 else
-  error "Profile $PROFILENAME not applied! Be sure the file $1.gitconfig exists in $PROFILE_DIR"
+  error "Profile $PROFILE_NAME not applied! Be sure the file $1.gitconfig exists in $PROFILE_DIR"
   exit 1
 fi
