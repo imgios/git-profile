@@ -45,6 +45,27 @@ info() {
   printf "[ %s ] - INFO - %s" "$timestamp" "$message"
 }
 
+debug() {
+  # This function prints debug messages
+  # if verbosity has been set to true.
+  #
+  # $1 is the message to display
+
+  # Check if user enabled verbosity
+  if [ "$VERBOSE" = false ]; then
+    return 0 # do nothing
+  fi
+
+  local message=''
+  if [[ -z $1 ]]; then
+    message="Hello! The author forgot to add the message 👀"
+  else
+    message="$1"
+  fi
+  local timestamp=$(date +"%m-%d-%yT%T")
+  printf "[ %s ] - DEBUG - %s" "$timestamp" "$message"
+}
+
 get_usage() {
   # This function prints a USAGE-related string
 
@@ -77,6 +98,8 @@ save() {
   #
   # Params:
   #   $1  string  profile name to use
+  
+  debug "Using $PROFILE_DIR as profile directory to save the profile."
 
   if cp ~/.gitconfig $PROFILE_DIR/$1.gitconfig; then
     info "Profile saved in $PROFILE_DIR/$1.gitconfig"
@@ -90,8 +113,11 @@ save() {
 list() {
   # This function lists the content of $PROFILE_DIR
 
+  debug "Using $PROFILE_DIR as profile directory to list the available profiles."
+
   if [ -d "$PROFILE_DIR" ]; then
     profiles=(`ls ${PROFILE_DIR} | grep gitconfig | sed 's/\.gitconfig//g'`)
+    debug "Profiles extracted from $PROFILE_DIR: ${profiles[*]}"
     if [ "${#profiles[@]}" -gt 0 ] ; then
       info "Found ${#profiles[@]} profiles: ${profiles[*]}"
       return 0
@@ -108,8 +134,10 @@ check_git() {
   local path=`which git`
   # if path is an empty string means that git is not installed
   if [[ -z "$path" ]]; then
+    debug "which utility didn't find any git in the system."
     return 1
   else
+    debug "which utility found git in the system: $path"
     return 0
   fi
 }
@@ -118,8 +146,10 @@ check_directory() {
   # Check if a directory is present in the filesystem
 
   if [[ -d "$1" ]]; then
+    debug "Directory $1 found."
     return 0
   else
+    debug "Directory $1 not found. Are you sure it's a directory?"
     return 1
   fi
 }
@@ -134,6 +164,7 @@ set() {
 
   # Check if git is present in the machine
   # if it's missing exit
+  debug "Checking if git is present in the system."
   if [[ ! check_git ]]; then
     error "Git not found in the system!"
     return 1;
@@ -142,17 +173,22 @@ set() {
   # Check if the first fun argument is the profile name
   # If so, store it in a given variable
   # otherwise, throw an error.
+  debug "Checking if the profile name has been provided."
   PROFILE_NAME="None"
   first_positional="$1"
   if [[ ! -z "${first_positional// }" ]] && [[ ! "$1" =~ ^- ]]; then
     PROFILE_NAME=$1
+    debug "Profile name set: $PROFILE_NAME"
   else
+    arg="${first_positional:-empty}"
+    debug "Profile name not passed as argument or syntax wrong. Argument value <$1>"
     error "Profile name must be passed as command argument!"
     # get_usage
     # exit 1
     return 1
   fi
 
+  debug "Checking if $PROFILE_DIR exists."
   if ! check_directory $PROFILE_DIR ; then
     error "$PROFILE_DIR not found"
     read -p "Seems like $PROFILE_DIR doesn't exist, do you want to create it? " REPLY
