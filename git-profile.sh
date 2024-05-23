@@ -71,8 +71,11 @@ get_usage() {
   Feedbacks and issues can be reported at https://github.com/imgios/git-profile"
 }
 
-save_gitconfig() {
-  # This function saves the actual .gitconfig in profiles/default.gitconfig
+save() {
+  # This function saves the .gitconfig currently in use.
+  #
+  # Params:
+  #   $1  string  profile name to use
 
   if cp ~/.gitconfig $PROFILE_DIR/$1.gitconfig; then
     info "Profile saved in $PROFILE_DIR/$1.gitconfig"
@@ -182,6 +185,11 @@ main() {
       fi
       ;;
     save)
+      if [[ -n "$2" ]] && [[ ! "$1" =~ ^- ]]; then
+        save "$2" && exit 0 || exit 1
+      else
+        save "default" && exit 0 || exit 1
+      fi
       ;;
     list)
       ;;
