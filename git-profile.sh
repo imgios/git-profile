@@ -107,88 +107,94 @@ check_directory() {
   fi
 }
 
-# Check if the first argument is the profile name
-# If so, store it in a given variable
-# otherwise, throw an error.
-PROFILE_NAME="None"
-first_positional="$1"
-if [[ ! -z "${first_positional// }" ]] && [[ ! "$1" =~ ^- ]]; then
-  PROFILE_NAME=$1
-# else
-#   error "Profile name must be passed as first argument!"
-#   get_usage
-#   exit 1
-fi
+main() {
+  # This function is the script entry point
 
-# Script flags
-while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
-  -V | --version )
-    echo $VERSION
-    exit 0
-    ;;
-  -s | --save )
-    PROFILE_NAME="default"
-    if [[ -n "$2" ]]; then
-      PROFILE_NAME=$2
-    fi 
-    save_gitconfig "$PROFILE_NAME"
-    exit 0
-    ;;
-  -l | --list )
-    list_gitconfig
-    exit 0
-    ;;
-  -d | --dir )
-    if [[ -n "$2" ]]; then
-      PROFILE_DIR=$2
-    fi
-    ;;
-  -a | --alias )
-    echo "Paste the following string in your .bashrc to call the script from anywhere:"
-    echo "alias git-profile='$SCRIPT_DIR/$SCRIPT_NAME.sh'"
-    exit 0
-    ;;
-  -h | --help )
-    get_usage
-    exit 0
-    ;;
-  * )
-    echo "Flag $1 not recognised!"
-    get_usage
-    exit 0
-    ;;
-esac; shift; done
-if [[ "$1" == '--' ]]; then shift; fi
-
-# Check if profile was being passed
-if [[ "$PROFILE_NAME" == "None" ]]; then
-  error "Profile name not passed as first argument!"
-  exit 1
-fi
-
-# Check if git is present in the machine
-# if it's missing exit
-if [[ ! check_git ]]; then
-  error "Git not found in the system!"
-  exit 1;
-fi
-
-if ! check_directory $PROFILE_DIR ; then
-  error "$PROFILE_DIR not found"
-  read -p "Seems like $PROFILE_DIR doesn't exist, do you want to create it? " REPLY
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    if ! mkdir $PROFILE_DIR ; then
-      error "Unable to create profile directory '$PROFILE_DIR'. Please, create it manually."
-    fi
-  else
-    info "$PROFILE_DIR won't be created, exiting!"
+  # Check if the first argument is the profile name
+  # If so, store it in a given variable
+  # otherwise, throw an error.
+  PROFILE_NAME="None"
+  first_positional="$1"
+  if [[ ! -z "${first_positional// }" ]] && [[ ! "$1" =~ ^- ]]; then
+    PROFILE_NAME=$1
+  # else
+  #   error "Profile name must be passed as first argument!"
+  #   get_usage
+  #   exit 1
   fi
-fi
 
-# Replace the Git config and check if it's ok or not
-if cp $PROFILE_DIR/$1.gitconfig ~/.gitconfig; then
-  info "Profile $PROFILE_NAME applied!"
-else
-  error "Profile $PROFILE_NAME not applied! Be sure the file $1.gitconfig exists in $PROFILE_DIR"
-  exit 1
-fi
+  # Script flags
+  while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
+    -V | --version )
+      echo $VERSION
+      exit 0
+      ;;
+    -s | --save )
+      PROFILE_NAME="default"
+      if [[ -n "$2" ]]; then
+        PROFILE_NAME=$2
+      fi 
+      save_gitconfig "$PROFILE_NAME"
+      exit 0
+      ;;
+    -l | --list )
+      list_gitconfig
+      exit 0
+      ;;
+    -d | --dir )
+      if [[ -n "$2" ]]; then
+        PROFILE_DIR=$2
+      fi
+      ;;
+    -a | --alias )
+      echo "Paste the following string in your .bashrc to call the script from anywhere:"
+      echo "alias git-profile='$SCRIPT_DIR/$SCRIPT_NAME.sh'"
+      exit 0
+      ;;
+    -h | --help )
+      get_usage
+      exit 0
+      ;;
+    * )
+      echo "Flag $1 not recognised!"
+      get_usage
+      exit 0
+      ;;
+  esac; shift; done
+  if [[ "$1" == '--' ]]; then shift; fi
+
+  # Check if profile was being passed
+  if [[ "$PROFILE_NAME" == "None" ]]; then
+    error "Profile name not passed as first argument!"
+    exit 1
+  fi
+
+  # Check if git is present in the machine
+  # if it's missing exit
+  if [[ ! check_git ]]; then
+    error "Git not found in the system!"
+    exit 1;
+  fi
+
+  if ! check_directory $PROFILE_DIR ; then
+    error "$PROFILE_DIR not found"
+    read -p "Seems like $PROFILE_DIR doesn't exist, do you want to create it? " REPLY
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      if ! mkdir $PROFILE_DIR ; then
+        error "Unable to create profile directory '$PROFILE_DIR'. Please, create it manually."
+      fi
+    else
+      info "$PROFILE_DIR won't be created, exiting!"
+    fi
+  fi
+
+  # Replace the Git config and check if it's ok or not
+  if cp $PROFILE_DIR/$1.gitconfig ~/.gitconfig; then
+    info "Profile $PROFILE_NAME applied!"
+  else
+    error "Profile $PROFILE_NAME not applied! Be sure the file $1.gitconfig exists in $PROFILE_DIR"
+    exit 1
+  fi
+}
+
+main "$@"
