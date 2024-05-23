@@ -124,7 +124,7 @@ fi
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -V | --version )
     echo $VERSION
-    exit
+    exit 0
     ;;
   -s | --save )
     PROFILE_NAME="default"
@@ -132,11 +132,11 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
       PROFILE_NAME=$2
     fi 
     save_gitconfig "$PROFILE_NAME"
-    exit
+    exit 0
     ;;
   -l | --list )
     list_gitconfig
-    exit
+    exit 0
     ;;
   -d | --dir )
     if [[ -n "$2" ]]; then
@@ -146,16 +146,16 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   -a | --alias )
     echo "Paste the following string in your .bashrc to call the script from anywhere:"
     echo "alias git-profile='$SCRIPT_DIR/$SCRIPT_NAME.sh'"
-    exit
+    exit 0
     ;;
   -h | --help )
     get_usage
-    exit
+    exit 0
     ;;
   * )
     echo "Flag $1 not recognised!"
     get_usage
-    exit
+    exit 0
     ;;
 esac; shift; done
 if [[ "$1" == '--' ]]; then shift; fi
