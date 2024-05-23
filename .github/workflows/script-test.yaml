@@ -50,6 +50,8 @@ jobs:
           echo "========================================================"
           echo "Summary:"
           echo "========================================================"
+
+          # Switch to existing Git profile test
           ./git-profile.sh set chuck > profile-switch.log 2>&1
           profile_switch=$?
           email=`git config --get user.email`
@@ -59,6 +61,8 @@ jobs:
             failed "Switch to existing Git profile test:"
             failure=1
           fi
+
+          # Exec bash script with no arguments test
           ./git-profile.sh > no-arguments.log 2>&1
           profile_switch=$?
           if [[ "$profile_switch" -eq "1" ]]; then
@@ -67,6 +71,8 @@ jobs:
             failed "Exec bash script with no arguments test:"
             failure=1
           fi
+
+          # Save current Git profile with no name test
           mv ~/.gitprofile/morty.gitconfig ~/.gitconfig
           ./git-profile.sh save > profile-save.log 2>&1
           profile_save=$?
@@ -76,6 +82,8 @@ jobs:
             failed "Save current Git profile with no name test:"
             failure=1
           fi
+
+          # Save current Git profile as github test
           ./git-profile.sh save github > profile-save-gh.log 2>&1
           profile_save=$?
           if [[ "profile_save" -eq "0" ]] && [[ -f ~/.gitprofile/default.gitconfig ]]; then
@@ -84,6 +92,8 @@ jobs:
             failed "Save current Git profile as github test:"
             failure=1
           fi
+
+          # List available Git profile test
           ./git-profile.sh list > profile-list.log 2>&1
           profile_list=$?
           if [[ "profile_list" -eq "0" ]]; then
