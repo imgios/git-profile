@@ -118,12 +118,68 @@ check_directory() {
   fi
 }
 
+set() {
+  # This function implements the set command
+  # and replace the Git profile with the one
+  # passed as argument.
+  #
+  # Params:
+  #   $1  string  profile name
+
+  # Check if git is present in the machine
+  # if it's missing exit
+  if [[ ! check_git ]]; then
+    error "Git not found in the system!"
+    return 1;
+  fi
+
+  # Check if the first fun argument is the profile name
+  # If so, store it in a given variable
+  # otherwise, throw an error.
+  PROFILE_NAME="None"
+  first_positional="$1"
+  if [[ ! -z "${first_positional// }" ]] && [[ ! "$1" =~ ^- ]]; then
+    PROFILE_NAME=$1
+  else
+    error "Profile name must be passed as command argument!"
+    # get_usage
+    # exit 1
+    return 1
+  fi
+
+  if ! check_directory $PROFILE_DIR ; then
+    error "$PROFILE_DIR not found"
+    read -p "Seems like $PROFILE_DIR doesn't exist, do you want to create it? " REPLY
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      if ! mkdir $PROFILE_DIR ; then
+        error "Unable to create profile directory '$PROFILE_DIR'. Please, create it manually."
+      fi
+    else
+      info "$PROFILE_DIR won't be created, exiting!"
+    fi
+  fi
+
+  # Replace the Git config and check if it's ok or not
+  if cp $PROFILE_DIR/$1.gitconfig ~/.gitconfig; then
+    info "Profile $PROFILE_NAME applied!"
+  else
+    error "Profile $PROFILE_NAME not applied! Be sure the file $1.gitconfig exists in $PROFILE_DIR"
+    exit 1
+  fi
+}
+
 main() {
   # This function is the script entry point
 
   # Check if the first argument is a command or not
   case $1 in
     set)
+      if [[ -m "$2" ]] && [[ ! "$1" =~ ^- ]]; then
+        set "$2" && exit 0 || exit 1
+      else
+        error "Profile name is missing. Please, pass it as command argument."
+        get_usage
+      fi
       ;;
     save)
       ;;
@@ -138,18 +194,6 @@ main() {
       exit 1
       ;;
   esac
-  # Check if the first argument is the profile name
-  # If so, store it in a given variable
-  # otherwise, throw an error.
-  PROFILE_NAME="None"
-  first_positional="$1"
-  if [[ ! -z "${first_positional// }" ]] && [[ ! "$1" =~ ^- ]]; then
-    PROFILE_NAME=$1
-  # else
-  #   error "Profile name must be passed as first argument!"
-  #   get_usage
-  #   exit 1
-  fi
 
   # Script flags
   while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
@@ -194,33 +238,6 @@ main() {
   # Check if profile was being passed
   if [[ "$PROFILE_NAME" == "None" ]]; then
     error "Profile name not passed as first argument!"
-    exit 1
-  fi
-
-  # Check if git is present in the machine
-  # if it's missing exit
-  if [[ ! check_git ]]; then
-    error "Git not found in the system!"
-    exit 1;
-  fi
-
-  if ! check_directory $PROFILE_DIR ; then
-    error "$PROFILE_DIR not found"
-    read -p "Seems like $PROFILE_DIR doesn't exist, do you want to create it? " REPLY
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-      if ! mkdir $PROFILE_DIR ; then
-        error "Unable to create profile directory '$PROFILE_DIR'. Please, create it manually."
-      fi
-    else
-      info "$PROFILE_DIR won't be created, exiting!"
-    fi
-  fi
-
-  # Replace the Git config and check if it's ok or not
-  if cp $PROFILE_DIR/$1.gitconfig ~/.gitconfig; then
-    info "Profile $PROFILE_NAME applied!"
-  else
-    error "Profile $PROFILE_NAME not applied! Be sure the file $1.gitconfig exists in $PROFILE_DIR"
     exit 1
   fi
 }
