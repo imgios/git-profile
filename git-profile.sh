@@ -45,6 +45,27 @@ info() {
   printf "[ %s ] - INFO - %s" "$timestamp" "$message"
 }
 
+debug() {
+  # This function prints debug messages
+  # if verbosity has been set to true.
+  #
+  # $1 is the message to display
+
+  # Check if user enabled verbosity
+  if [ "$VERBOSE" = false ]; then
+    return 0 # do nothing
+  fi
+
+  local message=''
+  if [[ -z $1 ]]; then
+    message="Hello! The author forgot to add the message 👀"
+  else
+    message="$1"
+  fi
+  local timestamp=$(date +"%m-%d-%yT%T")
+  printf "[ %s ] - DEBUG - %s" "$timestamp" "$message"
+}
+
 get_usage() {
   # This function prints a USAGE-related string
 
