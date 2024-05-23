@@ -177,7 +177,7 @@ main() {
   # Check if the first argument is a command or not
   case $1 in
     set)
-      if [[ -m "$2" ]] && [[ ! "$1" =~ ^- ]]; then
+      if [[ -n "$2" ]] && [[ ! "$1" =~ ^- ]]; then
         set "$2" && exit 0 || exit 1
       else
         error "Profile name is missing. Please, pass it as command argument."
