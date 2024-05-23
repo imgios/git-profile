@@ -47,17 +47,28 @@ info() {
 get_usage() {
   # This function prints a USAGE-related string
 
-  echo "USAGE: ${SCRIPT_NAME%%.*} <profile-name> [-hsldaV]
+  echo "USAGE: ${SCRIPT_NAME%%.*} <command> [profile] [options]
   
   where: <profile-name> is a <profile-name>.gitconfig files in $PROFILE_DIR
+
+  commands:
+    set           Set the profile specified as third argument.
+    save          Save the profile in-use as default.gitconfig in $PROFILE_DIR.
+                  An argument can be passed to customize the profile name.
+    list          List all the available profiles present in $PROFILE_DIR
+    help          Show this help test.
+    version       Show ${SCRIPT_NAME%%.*} version.
   
   flags:
-    -h,--help     Show this help text.
-    -s,--save     Save current .gitconfig in $PROFILE_DIR/default.gitconfig if no name is passed, otherwise it will be saved in $PROFILE_DIR/<name_passed>.gitconfig
-    -l,--list     List all the available profiles in $PROFILE_DIR
     -d,--dir      Specify the Git Profiles directory that will be used to retrieve/store all profiles.
-    -a,--alias    Show bashrc alias to use the script from anywhere
-    -V,--version  Show script version."
+    -v,--verbose  Increase the log level to DEBUG.
+  
+  examples:
+    ${SCRIPT_NAME%%.*} set github
+    ${SCRIPT_NAME%%.*} save work -d /etc/.gitprofile
+    ${SCRIPT_NAME%%.*} list
+    
+  Feedbacks and issues can be reported on https://github.com/imgios/git-profile"
 }
 
 save_gitconfig() {
