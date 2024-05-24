@@ -1,12 +1,8 @@
 #!/usr/bin/bash
-
+#
 # Git-Profile
 # https://github.com/imgios/git-profile
 # Any idea/feedback/bug can be shared/reported using GitHub Issues https://github.com/imgios/git-profile/issues
-#
-# Usage ./git-profile.sh <profile-name>
-# Where <profile-name> is a <profile-name>.gitconfig files existing in the scriptdir/profiles path.
-# For more information use ./git-profile.sh --help
 
 # Variables
 VERSION=2.0-alpha
