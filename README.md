@@ -86,13 +86,13 @@ When you're done populating the profiles path, you can start using the script:
 $ git-profile help
 USAGE: git-profile <command> [profile] [options]
  
-  where: <profile-name> is a <profile-name>.gitconfig files in /home/fonzdm/.gitprofile
+  where: <profile-name> is a <profile-name>.gitconfig files in /home/imgios/.gitprofile
  
   commands:
     set           Set the profile specified as third argument.
-    save          Save the profile in-use as default.gitconfig in /home/fonzdm/.gitprofile.
+    save          Save the profile in-use as default.gitconfig in /home/imgios/.gitprofile.
                   An argument can be passed to customize the profile name.
-    list          List all the available profiles present in /home/fonzdm/.gitprofile
+    list          List all the available profiles present in /home/imgios/.gitprofile
     help          Show this help test.
     version       Show git-profile version.
  
