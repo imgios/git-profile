@@ -105,8 +105,7 @@ USAGE: git-profile <command> [profile] [options]
     git-profile save work -d /etc/.gitprofile
     git-profile list
  
-  Feedbacks and issues can be reported at
-https://github.com/imgios/git-profile
+  Feedbacks and issues can be reported at https://github.com/imgios/git-profile
 ```
 
 ## Contributing
