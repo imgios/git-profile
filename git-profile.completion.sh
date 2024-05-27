@@ -6,7 +6,7 @@ __git-profile_completion() {
 	current="${COMP_WORDS[COMP_CWORD]}"
 	previous="${COMP_WORDS[COMP_CWORD-1]}"
 	options="--directory --verbose"
-	commands=( "set" "save" "list" "help" "version" )
+	commands=( "set" "save" "list" "completion" "help" "version" )
 	require_input=( "set" "save" )
 
 	if [[ ${current} == -* ]]; then
