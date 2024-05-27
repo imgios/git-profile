@@ -21,6 +21,7 @@ __git-profile_completion() {
 		return 0
 	else
 		COMPREPLY=($(compgen -W "${commands[*]}" "${current}"))
+  		return 0
 	fi
 }
 
