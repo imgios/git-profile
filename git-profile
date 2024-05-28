@@ -1,0 +1,312 @@
+#!/usr/bin/bash
+#
+# Git-Profile
+# https://github.com/imgios/git-profile
+# Any idea/feedback/bug can be shared/reported using GitHub Issues https://github.com/imgios/git-profile/issues
+
+# Variables
+VERSION=2.0
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_NAME=$(basename $0)
+PROFILE_DIR=~/.gitprofile
+VERBOSE=false
+
+error() {
+  # This function prints error messages
+  #
+  # $1 is the message to display
+
+  local message=''
+  if [[ -z $1 ]]; then
+    message="Something went wrong!"
+  else
+    message="$1"
+  fi
+  local timestamp=$(date +"%m-%d-%yT%T")
+  printf "[ %s ] - ERROR - %s\n" "$timestamp" "$message" >&2
+}
+
+info() {
+  # This function prints info messages
+  #
+  # $1 is the message to display
+
+  local message=''
+  if [[ -z $1 ]]; then
+    message="Hello! The author forgot to add the message 👀"
+  else
+    message="$1"
+  fi
+  local timestamp=$(date +"%m-%d-%yT%T")
+  printf "[ %s ] - INFO - %s\n" "$timestamp" "$message"
+}
+
+debug() {
+  # This function prints debug messages
+  # if verbosity has been set to true.
+  #
+  # $1 is the message to display
+
+  # Check if user enabled verbosity
+  if [ "$VERBOSE" = false ]; then
+    return 0 # do nothing
+  fi
+
+  local message=''
+  if [[ -z $1 ]]; then
+    message="Hello! The author forgot to add the message 👀"
+  else
+    message="$1"
+  fi
+  local timestamp=$(date +"%m-%d-%yT%T")
+  printf "[ %s ] - DEBUG - %s\n" "$timestamp" "$message"
+}
+
+get_usage() {
+  # This function prints a USAGE-related string
+
+  echo "USAGE: ${SCRIPT_NAME%%.*} <command> [profile] [options]
+  
+  where: <profile-name> is a <profile-name>.gitconfig files in $PROFILE_DIR
+
+  commands:
+    set           Set the profile specified as third argument.
+    save          Save the profile in-use as default.gitconfig in $PROFILE_DIR.
+                  An argument can be passed to customize the profile name.
+    list          List all the available profiles present in $PROFILE_DIR
+    completion    Output shell completion code for the bash shell.
+    help          Show this help test.
+    version       Show ${SCRIPT_NAME%%.*} version.
+  
+  flags:
+    -d,--dir      Specify the Git Profiles directory that will be used to retrieve/store all profiles.
+    -v,--verbose  Increase the log level to DEBUG.
+  
+  examples:
+    ${SCRIPT_NAME%%.*} set github
+    ${SCRIPT_NAME%%.*} save work -d /etc/.gitprofile
+    ${SCRIPT_NAME%%.*} list
+    
+  Feedbacks and issues can be reported at https://github.com/imgios/git-profile"
+}
+
+save() {
+  # This function saves the .gitconfig currently in use.
+  #
+  # Params:
+  #   $1  string  profile name to use
+  
+  debug "Using $PROFILE_DIR as profile directory to save the profile."
+
+  if cp ~/.gitconfig $PROFILE_DIR/$1.gitconfig; then
+    info "Profile saved in $PROFILE_DIR/$1.gitconfig"
+    return 0
+  else
+    error "Profile not saved! Be sure the profiles path exists in $PROFILE_DIR"
+    return 1
+  fi
+}
+
+list() {
+  # This function lists the content of $PROFILE_DIR
+
+  debug "Using $PROFILE_DIR as profile directory to list the available profiles."
+
+  if [ -d "$PROFILE_DIR" ]; then
+    profiles=(`ls ${PROFILE_DIR} | grep gitconfig | sed 's/\.gitconfig//g'`)
+    debug "Profiles extracted from $PROFILE_DIR: ${profiles[*]}"
+    if [ "${#profiles[@]}" -gt 0 ] ; then
+      info "Found ${#profiles[@]} profiles: ${profiles[*]}"
+      return 0
+    else
+      info "No profile found in $PROFILE_DIR"
+      return 1
+    fi
+  else
+    error "$PROFILE_DIR not found in the system."
+  fi
+}
+
+check_git() {
+  # This function checks if git is installed on the machine using which
+
+  local path=`which git`
+  # if path is an empty string means that git is not installed
+  if [[ -z "$path" ]]; then
+    debug "which utility didn't find any git in the system."
+    return 1
+  else
+    debug "which utility found git in the system: $path"
+    return 0
+  fi
+}
+
+check_directory() {
+  # Check if a directory is present in the filesystem
+
+  if [[ -d "$1" ]]; then
+    debug "Directory $1 found."
+    return 0
+  else
+    debug "Directory $1 not found. Are you sure it's a directory?"
+    return 1
+  fi
+}
+
+set() {
+  # This function implements the set command
+  # and replace the Git profile with the one
+  # passed as argument.
+  #
+  # Params:
+  #   $1  string  profile name
+
+  # Check if git is present in the machine
+  # if it's missing exit
+  debug "Checking if git is present in the system."
+  if [[ ! check_git ]]; then
+    error "Git not found in the system!"
+    return 1;
+  fi
+
+  # Check if the first fun argument is the profile name
+  # If so, store it in a given variable
+  # otherwise, throw an error.
+  debug "Checking if the profile name has been provided."
+  PROFILE_NAME="None"
+  first_positional="$1"
+  if [[ ! -z "${first_positional// }" ]] && [[ ! "$1" =~ ^- ]]; then
+    PROFILE_NAME=$1
+    debug "Profile name set: $PROFILE_NAME"
+  else
+    arg="${first_positional:-empty}"
+    debug "Profile name not passed as argument or syntax wrong. Argument value <$1>"
+    error "Profile name must be passed as command argument!"
+    # get_usage
+    # exit 1
+    return 1
+  fi
+
+  debug "Checking if $PROFILE_DIR exists."
+  if ! check_directory $PROFILE_DIR ; then
+    error "$PROFILE_DIR not found"
+    read -p "Seems like $PROFILE_DIR doesn't exist, do you want to create it? " REPLY
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      if ! mkdir $PROFILE_DIR ; then
+        error "Unable to create profile directory '$PROFILE_DIR'. Please, create it manually."
+      fi
+    else
+      info "$PROFILE_DIR won't be created, exiting!"
+    fi
+  fi
+
+  # Replace the Git config and check if it's ok or not
+  if cp $PROFILE_DIR/$1.gitconfig ~/.gitconfig; then
+    info "Profile $PROFILE_NAME applied!"
+  else
+    error "Profile $PROFILE_NAME not applied! Be sure the file $1.gitconfig exists in $PROFILE_DIR"
+    exit 1
+  fi
+}
+
+completion() {
+  # This function returns the bash completion
+  # that can be sourced to autocomplete
+  # both the script commands and options.
+
+  echo "#!/usr/bin/bash
+
+__git-profile_completion() {
+	local current previous options
+	COMPREPLY=()
+	current=\"\${COMP_WORDS[COMP_CWORD]}\"
+	previous=\"\${COMP_WORDS[COMP_CWORD-1]}\"
+	options=\"--directory --verbose\"
+	commands=( \"set\" \"save\" \"list\" \"completion\" \"help\" \"version\" )
+	require_input=( \"set\" \"save\" )
+
+	if [[ \${current} == -* ]]; then
+		COMPREPLY=( \$(compgen -W \"\${options}\" -- \${current}) )
+		return 0
+	elif [[ \"\${require_input[*]}\" =~ \${previous} ]]; then
+		profiles=\"\"
+		if [[ -d \"~/.gitprofile\" ]]; then
+			profiles=\$(ls ~/.gitprofile)
+		fi
+		COMPREPLY=(\$(compgen -W \"\${profiles}\" \"\${current}\"))
+		return 0
+	else
+		COMPREPLY=(\$(compgen -W \"\${commands[*]}\" \"\${current}\"))
+  		return 0
+	fi
+}
+
+complete -o default -F __git-profile_completion git-profile
+"
+}
+
+main() {
+  # This function is the script entry point
+  
+  args=( "$@" )
+  debug "Arguments being parsed: ${args[*]}"
+
+  # Check for options
+  for arg in "${args[@]}"; do
+    if [[ "$arg" =~ ^- && ! "$arg" == "--" ]]; then
+      case $arg in
+        -d | --dir)
+          if [[ -n "$2" ]]; then
+            PROFILE_DIR=$2
+          else
+            error "$arg must be used with a value to specify the profiles directory!"
+            exit 1
+          fi
+          ;;
+        -v | --verbose)
+          VERBOSE=true
+          ;;
+      esac
+    fi
+  done
+
+  # Check if the first argument is a command or not
+  case $1 in
+    set)
+      if [[ -n "$2" ]] && [[ ! "$1" =~ ^- ]]; then
+        set "$2" && exit 0 || exit 1
+      else
+        error "Profile name is missing. Please, pass it as command argument."
+        get_usage
+      fi
+      ;;
+    save)
+      if [[ -n "$2" ]] && [[ ! "$2" =~ ^- ]]; then
+        save "$2" && exit 0 || exit 1
+      else
+        save "default" && exit 0 || exit 1
+      fi
+      ;;
+    list)
+      list && exit 0 || exit 1
+      ;;
+    completion)
+      completion
+      exit 0
+      ;;
+    help)
+      get_usage
+      exit 0
+      ;;
+    version)
+      echo $VERSION
+      exit 0
+      ;;
+    *)
+      get_usage
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"
