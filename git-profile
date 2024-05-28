@@ -23,7 +23,7 @@ error() {
     message="$1"
   fi
   local timestamp=$(date +"%m-%d-%yT%T")
-  printf "[ %s ] - ERROR - %s\n" "$timestamp" "$message"
+  printf "[ %s ] - ERROR - %s\n" "$timestamp" "$message" >&2
 }
 
 info() {
