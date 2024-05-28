@@ -230,8 +230,8 @@ __git-profile_completion() {
 		return 0
 	elif [[ \"\${require_input[*]}\" =~ \${previous} ]]; then
 		profiles=\"\"
-		if [[ ! -d \"~/.gitprofile\" ]]; then
-			profiles=\$(ls ~/.gitprofile 2>/dev/null)
+		if [[ -d \"~/.gitprofile\" ]]; then
+			profiles=\$(ls ~/.gitprofile)
 		fi
 		COMPREPLY=(\$(compgen -W \"\${profiles}\" \"\${current}\"))
 		return 0
