@@ -1,4 +1,4 @@
-# `>_` Git Profile
+# 🔀 Git Profile
 
 Bash script in order to switch between various Git profiles, where each profile is represented as `.gitconfig` file.
 
