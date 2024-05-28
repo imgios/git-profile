@@ -231,7 +231,7 @@ __git-profile_completion() {
 	elif [[ \"\${require_input[*]}\" =~ \${previous} ]]; then
 		profiles=\"\"
 		if [[ ! -d \"~/.gitprofile\" ]]; then
-			profiles=\$(ls ~/.gitprofile)
+			profiles=\$(ls ~/.gitprofile 2>/dev/null)
 		fi
 		COMPREPLY=(\$(compgen -W \"\${profiles}\" \"\${current}\"))
 		return 0
