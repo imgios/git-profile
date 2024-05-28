@@ -5,7 +5,7 @@
 # Any idea/feedback/bug can be shared/reported using GitHub Issues https://github.com/imgios/git-profile/issues
 
 # Variables
-VERSION=2.0-alpha
+VERSION=2.0
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 SCRIPT_NAME=$(basename $0)
 PROFILE_DIR=~/.gitprofile
