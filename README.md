@@ -27,10 +27,18 @@ $ chmod +x git-profile
 ```
 
 <details>
-  <summary><b>(Optional) Install it to use it globally ➡</b></summary>
+  <summary><b>(Optional) Global installation and Bash completion ➡</b></summary>
+  
+  - Install the script:
   
   ```shell
   $ sudo install -o root -g root -m 0755 git-profile /usr/local/bin/git-profile
+  ```
+
+  - Source the bash completion:
+  
+  ```shell
+  $ echo "source <(git-profile completion)" >> .bashrc
   ```
 
 </details>
